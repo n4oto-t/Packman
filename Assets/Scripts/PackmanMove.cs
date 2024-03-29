@@ -25,14 +25,19 @@ public class PackmanMove : MonoBehaviour
                 dest = (Vector2)transform.position - Vector2.up;
             if (Input.GetKey(KeyCode.LeftArrow) && Valid(-Vector2.right))
                 dest = (Vector2)transform.position - Vector2.right;
-
         }
+
+        Vector2 dir = dest - (Vector2)transform.position;
+        GetComponent<Animator>().SetFloat("DirX", dir.x);
+        GetComponent<Animator>().SetFloat("DirY", dir.y);
+
     }
 
     bool Valid(Vector2 dir)
     {
         // pacmanと移動先を線で結び、その線がなんらかのオブジェクトに接触したら壁と認識?
         Vector2 pos = transform.position;
+
         RaycastHit2D hit = Physics2D.Linecast(pos + dir, pos);
         return hit.collider == GetComponent<Collider2D>();
     }
